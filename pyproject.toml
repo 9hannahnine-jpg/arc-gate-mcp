@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "arc-gate-mcp"
+version = "0.1.0"
+description = "Runtime governance for MCP tool calls — Arc Gate for the MCP protocol layer"
+readme = "README.md"
+license = { text = "AGPL-3.0" }
+authors = [{ name = "Hannah Nine", email = "9hannahnine@gmail.com" }]
+keywords = ["mcp", "prompt-injection", "ai-security", "llm", "agent", "runtime-governance"]
+requires-python = ">=3.10"
+dependencies = ["mcp>=1.0.0", "httpx>=0.25.0"]
+
+[project.scripts]
+arc-gate-mcp = "arc_gate_mcp:main"
+
+[project.urls]
+Homepage = "https://bendexgeometry.com/gate"
+Repository = "https://github.com/9hannahnine-jpg/arc-gate-mcp"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["arc_gate_mcp*"]
