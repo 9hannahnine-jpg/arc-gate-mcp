@@ -43,6 +43,7 @@ import httpx
 from mcp.server.fastmcp import FastMCP
 from mcp import ClientSession
 from mcp.client.sse import sse_client
+from mcp.client.stdio import stdio_client, StdioServerParameters
 from mcp.types import (
     CallToolResult,
     TextContent,
@@ -235,22 +236,45 @@ class ArcGateMCPProxy:
         self._blocked_count = 0
         self._allowed_count = 0
 
+    def _is_stdio_upstream(self) -> bool:
+        """Check if upstream is a stdio command rather than SSE URL."""
+        url = self.upstream_url.strip()
+        return any(url.startswith(p) for p in ("uvx ", "npx ", "python ", "python3 ", "/"))
+
+    def _get_stdio_params(self) -> StdioServerParameters:
+        """Parse stdio command into StdioServerParameters."""
+        parts = self.upstream_url.strip().split()
+        return StdioServerParameters(command=parts[0], args=parts[1:])
+
     async def _fetch_upstream_tools(self) -> list[Tool]:
         """Connect to upstream MCP server and discover available tools."""
-        async with sse_client(self.upstream_url) as (read, write):
-            async with ClientSession(read, write) as session:
-                await session.initialize()
-                result = await session.list_tools()
-                return result.tools
+        if self._is_stdio_upstream():
+            async with stdio_client(self._get_stdio_params()) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    result = await session.list_tools()
+                    return result.tools
+        else:
+            async with sse_client(self.upstream_url) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    result = await session.list_tools()
+                    return result.tools
 
     async def _call_upstream_tool(
         self, tool_name: str, arguments: dict
     ) -> CallToolResult:
         """Call a tool on the upstream MCP server."""
-        async with sse_client(self.upstream_url) as (read, write):
-            async with ClientSession(read, write) as session:
-                await session.initialize()
-                return await session.call_tool(tool_name, arguments)
+        if self._is_stdio_upstream():
+            async with stdio_client(self._get_stdio_params()) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    return await session.call_tool(tool_name, arguments)
+        else:
+            async with sse_client(self.upstream_url) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    return await session.call_tool(tool_name, arguments)
 
     def _make_blocked_result(self, tool_name: str, matched: str) -> CallToolResult:
         """Return a safe blocked result with Arc Gate metadata."""
