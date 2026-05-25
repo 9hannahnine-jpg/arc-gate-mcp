@@ -54,11 +54,13 @@ arc-gate-mcp --upstream http://localhost:8000/sse --policy rag_assistant
 | `finance_agent` | Strictest — block everything suspicious |
 | `rag_assistant` | Strip injections, preserve safe data |
 
-## Related
-
-- [Arc Gate](https://github.com/9hannahnine-jpg/arc-gate) — OpenAI-compatible proxy version
-- [arc-sentry](https://github.com/9hannahnine-jpg/arc-sentry) — Whitebox detector for self-hosted models
-
 ## License
 
 AGPL-3.0. Commercial license available — contact 9hannahnine@gmail.com.
+
+## Related
+
+- [arc-gate](https://github.com/9hannahnine-jpg/arc-gate) — Runtime governance proxy for LLM agents
+- [arc-sentry](https://github.com/9hannahnine-jpg/arc-sentry) — Whitebox detector for self-hosted models
+- [arc-gate-mcp](https://github.com/9hannahnine-jpg/arc-gate-mcp) — Runtime governance for MCP tool calls
+- [arc-gate-benchmark](https://github.com/9hannahnine-jpg/arc-gate-benchmark) — Reproducible benchmark harness
