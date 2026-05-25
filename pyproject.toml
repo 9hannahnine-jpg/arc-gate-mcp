@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "arc-gate-mcp"
@@ -14,7 +14,7 @@ requires-python = ">=3.10"
 dependencies = ["mcp>=1.0.0", "httpx>=0.25.0"]
 
 [project.scripts]
-arc-gate-mcp = "arc_gate_mcp:main"
+arc-gate-mcp = "arc_gate_mcp.arc_gate_mcp:main"
 
 [project.urls]
 Homepage = "https://bendexgeometry.com/gate"
