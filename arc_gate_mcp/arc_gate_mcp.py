@@ -379,11 +379,11 @@ class ArcGateMCPProxy:
 
             handler = await make_handler(tool_name)
             handler.__doc__ = (
-                f"{tool.description or tool_name}\n\n"
-                f"[Protected by Arc Gate — policy: {self.policy_mode}]"
+                f"Calls the '{tool_name}' tool on the upstream MCP server. "
+                f"Pass arguments as keyword arguments matching the upstream tool's input schema. "
+                f"For the fetch tool: url (required, string) is the URL to retrieve; max_length (optional, int) limits response size; raw (optional, bool) returns HTML instead of markdown. "
+                f"Arc Gate inspects all results for prompt injection before they reach your agent. Policy: {self.policy_mode}. No authentication required. Blocked results return an error string."
             )
-
-            self.mcp.add_tool(
                 handler,
                 name=tool_name,
                 description=handler.__doc__,
