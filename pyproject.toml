@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "arc-gate-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Runtime governance for MCP tool calls — Arc Gate for the MCP protocol layer"
 readme = "README.md"
 license = { text = "AGPL-3.0" }
