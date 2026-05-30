@@ -367,7 +367,9 @@ class ArcGateMCPProxy:
 
             async def make_handler(name: str):
                 async def handler(**kwargs) -> str:
-                    result = await self._governed_tool_call(name, kwargs)
+                    # Flatten kwargs — if single 'kwargs' key exists unwrap it
+                    args = kwargs.get("kwargs", kwargs) if "kwargs" in kwargs and len(kwargs) == 1 else kwargs
+                    result = await self._governed_tool_call(name, args)
                     texts = [
                         block.text for block in result.content
                         if hasattr(block, "text")
