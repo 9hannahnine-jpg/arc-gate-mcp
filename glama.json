@@ -1,7 +1,8 @@
 {
+  "$schema": "https://glama.ai/mcp/servers/schema.json",
   "name": "arc-gate-mcp",
-  "description": "Runtime governance proxy for MCP tool calls. Inspects tool results for prompt injection and capability abuse before they reach your agent.",
+  "description": "Runtime governance proxy for MCP tool calls. Inspects every tool result for prompt injection and capability abuse before it reaches your agent \u2014 blocking attacks that exploit the MCP trust boundary.",
   "license": "AGPL-3.0",
   "homepage": "https://bendexgeometry.com",
-  "documentation": "https://github.com/9hannahnine-jpg/arc-gate-mcp#readme"
+  "repository": "https://github.com/9hannahnine-jpg/arc-gate-mcp"
 }
