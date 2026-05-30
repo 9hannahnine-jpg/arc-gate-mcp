@@ -239,7 +239,10 @@ class ArcGateMCPProxy:
     def _is_stdio_upstream(self) -> bool:
         """Check if upstream is a stdio command rather than SSE URL."""
         url = self.upstream_url.strip()
-        return any(url.startswith(p) for p in ("uvx ", "npx ", "python ", "python3 ", "/"))
+        # If it doesn't start with http:// or https://, treat as stdio command
+        if url.startswith("http://") or url.startswith("https://"):
+            return False
+        return True
 
     def _get_stdio_params(self) -> StdioServerParameters:
         """Parse stdio command into StdioServerParameters."""
